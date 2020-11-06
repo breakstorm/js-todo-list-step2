@@ -1,0 +1,30 @@
+@base=""
+### get user list 
+GET {{base}}/api/users
+
+### insert user 
+POST {{base}}/api/users
+
+### get user one 
+GET {{base}}/api/users/1 
+
+### get user's item
+GET {{base}}/api/users/1/items
+
+### insert user's item 
+POST {{base}}/api/users/1/items 
+
+### delete all user's item
+DELETE {{base}}/api/users/1/items
+
+### delete one user's item 
+DELETE {{base}}/api/users/1/items/2 
+
+### update one user's'item
+PUT {{base}}/api/users/1/items/1
+
+### update priority 
+PUT {{base}}/api/users/1/items/1/priority
+
+### update complete 
+PUT {{base}}/api/users/1/items/1/toggle
