@@ -1,9 +1,10 @@
-import { ENTER, ESC } from './KeyVariable.js'
+import { ENTER, ESC } from './Variable/KeyVariable.js'
 
 class TodoInput {
     constructor (parent) {
-        this.$TodoInput = document.getElementById('new-todo-title')
+        this.$TodoInput = document.querySelector('.new-todo')
         this.$TodoInput.addEventListener('keyup', (e) => {
+            console.log('TEST: new-todo eventlistener', );
             if (e.key === ENTER ) {
                 const input = this.$TodoInput.value.trim()
                 parent.addItem(input)

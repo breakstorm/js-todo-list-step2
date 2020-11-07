@@ -13,7 +13,8 @@ class App {
         this.TodoFilter = new TodoFilter(this)
         this.Template = Template
 
-        this.$TodoList = document.getElementById('todo-list')
+        // this.$TodoList = document.getElementById('todo-list')
+        this.$TodoList = document.querySelector('.todo-list')
         this.$TodoCount = document.querySelector('.todo-count strong')
     }
 
@@ -29,6 +30,7 @@ class App {
     }
     render(status) {
         // 현재의 status값을 찾아서 사용해야 함. 
+        // state값에서 template의 STATUS부분을 수정해야 함. 
         const targetItem = this.item.filter(todoItem => {
             if (this.STATUS === '' ) return true
             if (this.STATUS === 'active' && !todoItem.complete) return true
@@ -63,6 +65,12 @@ class App {
         this.item = this.item.filter( todoItem =>  (parseInt(itemId) === todoItem.id) ? false : true )
         this.render()
     }
+    deleteItemAll () {
+        console.log('TEST: call deleteItemAll', );
+        if (this.item.length === 0) return;
+        this.item = [];
+        this.render();
+    }
     completeItem (targetElement) {
         // item값 변경 
         const itemId = targetElement.id.replace('item-', '')
@@ -82,9 +90,11 @@ class App {
 
 const onUserCreateHandler = () => {
     const userName = prompt("추가하고 싶은 이름을 입력해주세요.");
-  }
-  
-  const userCreateButton = document.querySelector('.user-create-button')
-  userCreateButton.addEventListener('click', onUserCreateHandler)
+}
+
+//TODO: user컴포넌트 추가로 만들어야 함. 
+//TODO: mock데이터로 동작이 되도록 만들어야 함. 
+const userCreateButton = document.querySelector('.user-create-button')
+userCreateButton.addEventListener('click', onUserCreateHandler)
   
 const todo = new App()

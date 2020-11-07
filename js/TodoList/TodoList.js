@@ -1,8 +1,9 @@
-import { ENTER, ESC } from './KeyVariable.js'
+import { ENTER, ESC } from './Variable/KeyVariable.js'
 
 class TodoList {
     constructor (parent) {
-        this.$TodoList = document.getElementById('todo-list')
+        // this.$TodoList = document.getElementById('todo-list')
+        this.$TodoList = document.querySelector('.todo-list')
         this.$TodoList.addEventListener('click', (e) => {
             if (e.target.className === 'destroy') {
                 const parentElement = e.target.closest('li')
