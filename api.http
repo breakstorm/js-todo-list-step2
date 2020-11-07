@@ -1,4 +1,4 @@
-@base=""
+@base=https://js-todo-list-9ca3a.df.r.appspot.com
 ### get user list 
 GET {{base}}/api/users
 
@@ -6,10 +6,14 @@ GET {{base}}/api/users
 POST {{base}}/api/users
 
 ### get user one 
-GET {{base}}/api/users/1 
+GET {{base}}/api/users/llfYUm9T9e
+# BZJWuQRGJ
+# llfYUm9T9e // 조회가 되지 않는 유저
+# Axnxos9kO
+# CncC0ExM0
 
 ### get user's item
-GET {{base}}/api/users/1/items
+GET {{base}}/api/users/CncC0ExM0/items
 
 ### insert user's item 
 POST {{base}}/api/users/1/items 
