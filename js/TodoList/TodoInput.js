@@ -7,6 +7,11 @@ class TodoInput {
             console.log('TEST: new-todo eventlistener', );
             if (e.key === ENTER ) {
                 const input = this.$TodoInput.value.trim()
+                
+                if ( !input ) {
+                    this.$TodoInput.value = ''
+                    return 
+                }
                 parent.addItem(input)
                 this.$TodoInput.value = ''
             }

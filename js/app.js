@@ -1,7 +1,7 @@
 import { TodoInput } from './TodoList/TodoInput.js'
 import { TodoList } from './TodoList/TodoList.js'
 import { TodoFilter } from './TodoList/TodoFilter.js'
-import { Template, TemplateEditing, TemplateCompleted } from './TodoList/Templates.js'
+import { Template } from './TodoList/Template/Templates.js'
 
 class App {
     constructor () {
@@ -13,24 +13,14 @@ class App {
         this.TodoFilter = new TodoFilter(this)
         this.Template = Template
 
-        // this.$TodoList = document.getElementById('todo-list')
         this.$TodoList = document.querySelector('.todo-list')
         this.$TodoCount = document.querySelector('.todo-count strong')
     }
 
     itemBeforeRender (renderItem) {
-        return renderItem.map(todoItem => {
-            switch (todoItem.complete) {
-                case true :
-                    return TemplateCompleted(todoItem)
-                case false :
-                    return Template(todoItem)
-            }
-        })
+        return renderItem.map(todoItem => Template(todoItem))
     }
     render(status) {
-        // 현재의 status값을 찾아서 사용해야 함. 
-        // state값에서 template의 STATUS부분을 수정해야 함. 
         const targetItem = this.item.filter(todoItem => {
             if (this.STATUS === '' ) return true
             if (this.STATUS === 'active' && !todoItem.complete) return true
