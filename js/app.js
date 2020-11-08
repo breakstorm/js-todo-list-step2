@@ -1,33 +1,42 @@
 import { TodoInput } from './TodoList/TodoInput.js'
 import { TodoList } from './TodoList/TodoList.js'
 import { TodoFilter } from './TodoList/TodoFilter.js'
-import { Template } from './TodoList/Template/Templates.js'
+import { TodoUser } from './TodoList/TodoUser.js'
+import { TodoTemplate, UserTemplate } from './TodoList/Template/Templates.js'
 
 class App {
     constructor () {
-        this.ID = 0
+        this.TODO_ID = 0
+        this.USER_ID = 0
         this.STATUS = ''
-        this.item = [] // {id, context, complete}, {id: ID++, context: 'test', complete: false}
+        this.item = [] // {_id, context, isCompleted, priority}, {id: ID++, context: 'test', complete: false}
+        this.user = [] // {_id, name }
         this.TodoInput = new TodoInput(this)
         this.TodoList = new TodoList(this)
         this.TodoFilter = new TodoFilter(this)
-        this.Template = Template
+        this.TodoUser = new TodoUser(this)
+        this.TodoTemplate = TodoTemplate
+        this.UserTemplate = UserTemplate
 
         this.$TodoList = document.querySelector('.todo-list')
         this.$TodoCount = document.querySelector('.todo-count strong')
+        this.$UserList = document.getElementById('user-list')
     }
 
     itemBeforeRender (renderItem) {
-        return renderItem.map(todoItem => Template(todoItem))
+        return renderItem.map(todoItem => TodoTemplate(todoItem))
     }
     render(status) {
         const targetItem = this.item.filter(todoItem => {
             if (this.STATUS === '' ) return true
-            if (this.STATUS === 'active' && !todoItem.complete) return true
-            if (this.STATUS === 'completed' && todoItem.complete) return true
+            if (this.STATUS === 'active' && !todoItem.isCompleted) return true
+            if (this.STATUS === 'completed' && todoItem.isCompleted) return true
         })
 
         const resultList = this.itemBeforeRender(targetItem)
+
+        console.log('TEST: render', targetItem);
+
         const resultLength = resultList.length
         const resultHTML = resultList.join()
         this.$TodoList.innerHTML = ''
@@ -36,14 +45,14 @@ class App {
     }
     
     addItem (inputValue) {
-        const eachItem = {id: this.ID++, context: inputValue, complete: false}
+        const eachItem = {_id: this.TODO_ID++, context: inputValue, isCompleted: false, priority: 'NONE'}
         this.item.push(eachItem)
         this.render()
     }
     afterUpdateItem (targetElement, value) {
         const itemId = targetElement.id.replace('item-', '')
         this.item = this.item.map(todoItem => {
-            if ( parseInt(itemId) === todoItem.id) {
+            if ( itemId === ''+todoItem._id) {
                 todoItem.context = value
             }
             return todoItem
@@ -52,7 +61,7 @@ class App {
     }
     deleteItem (targetElement) {
         const itemId = targetElement.id.replace('item-', '')
-        this.item = this.item.filter( todoItem =>  (parseInt(itemId) === todoItem.id) ? false : true )
+        this.item = this.item.filter( todoItem =>  ( itemId === ''+todoItem._id) ? false : true )
         this.render()
     }
     deleteItemAll () {
@@ -65,8 +74,9 @@ class App {
         // item값 변경 
         const itemId = targetElement.id.replace('item-', '')
         this.item = this.item.map(todoItem => {
-            if ( todoItem.id === parseInt(itemId) ) {
-                todoItem.complete = !todoItem.complete
+            console.log('TEST: complete', todoItem._id, itemId, ''+todoItem._id === itemId);
+            if ( ''+todoItem._id === itemId ) {
+                todoItem.isCompleted = !todoItem.isCompleted
             }
             return todoItem
         })
@@ -76,15 +86,13 @@ class App {
         this.STATUS = status
         this.render()
     }
+    addUserItem (userName) {
+        // 처음에는 UserList에 데이터를 추가하는 작업이 필요.
+        // 그 다음에 랜더링 하는 작업 추가. 
+        const UserHTML = this.UserTemplate({_id: this.USER_ID++,name: userName})
+        console.log('TEST: addUserItem', this.$UserList, UserHTML);
+        this.$UserList.insertAdjacentHTML('beforeend', UserHTML)
+    }
 }
-
-const onUserCreateHandler = () => {
-    const userName = prompt("추가하고 싶은 이름을 입력해주세요.");
-}
-
-//TODO: user컴포넌트 추가로 만들어야 함. 
-//TODO: mock데이터로 동작이 되도록 만들어야 함. 
-const userCreateButton = document.querySelector('.user-create-button')
-userCreateButton.addEventListener('click', onUserCreateHandler)
   
 const todo = new App()

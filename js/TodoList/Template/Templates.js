@@ -1,8 +1,8 @@
-const Template = (obj) => {
+const TodoTemplate = (obj) => {
     return `
-    <li id="item-${obj.id}" class="${(obj.complete) ? 'completed' : ''}">
+    <li id="item-${obj._id}" class="${(obj.isCompleted) ? 'completed' : ''}">
         <div class="view">
-        <input class="toggle" type="checkbox" ${(obj.complete) ? 'checked' : ''} />
+        <input class="toggle" type="checkbox" ${(obj.isCompleted) ? 'checked' : ''} />
         <label class="label">
             <select class="chip select">
             <option value="0" selected>순위</option>
@@ -17,27 +17,7 @@ const Template = (obj) => {
     </li>
     `
 }
-// const TemplateEditing = (obj) => {
-//   return `
-//   <li class="editing">
-//     <div class="view">
-//       <input class="toggle" type="checkbox" />
-//       <label class="label">완료된 타이틀</label>
-//       <button class="destroy"></button>
-//     </div>
-//     <input class="edit" value="완료된 타이틀" />
-//   </li>`
-// }
-// const TemplateCompleted = (obj) => {
-//   return `
-//   <li id="item-${obj.id}" class="completed">
-//     <div class="view">
-//       <input class="toggle" type="checkbox" checked/>
-//       <label class="label">${obj.context}</label>
-//       <button class="destroy"></button>
-//     </div>
-//     <input class="edit" value="${obj.context}" />
-//   </li>`
-// }
 
-export { Template }
+const UserTemplate = (obj) => `<button class="ripple" data-id="${obj._id}">${obj.name}</button>`
+
+export { TodoTemplate, UserTemplate }
